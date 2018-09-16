@@ -1,0 +1,5 @@
+/paypal-*.gem
+/Gemfile.lock
+Gemfile.lock
+tags
+/.bundle/
