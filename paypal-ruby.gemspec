@@ -10,9 +10,14 @@ Gem::Specification.new do |s|
   s.date        = '2018-09-16'
   s.summary     = 'Ruby wrapper for PayPal REST API'
   s.description = 'Ruby wrapper for PayPal REST API'
-  s.authors     = 'Filipe Costa'
+  s.author      = 'Filipe Costa'
   s.email       = 'filipebarcos@gmail.com'
-  s.files       = `git ls-files`.split("\n")
-  s.test_files  = `git ls-files -- test/*`.split("\n")
   s.license     = 'MIT'
+
+  s.add_dependency('faraday', '~> 0.15')
+
+  s.files       = `git ls-files`.split("\n")
+  s.test_files  = `git ls-files -- spec/*`.split("\n")
+  s.executables = `git ls-files -- bin/*`.split("\n").map { |f| ::File.basename(f) }
+  s.require_paths = %w(lib)
 end
