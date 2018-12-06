@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Paypal
-  class Requests
+  class Request
     def initialize(access_token:, test_mode: false, locale: 'en_US')
       @connection = Faraday.new(url: root_url(test_mode)) do |conn|
         conn.request :url_encoded
