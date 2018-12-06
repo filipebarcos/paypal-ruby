@@ -15,6 +15,8 @@ Gem::Specification.new do |s|
   s.license     = 'MIT'
 
   s.add_dependency('faraday', '~> 0.15')
+  s.add_development_dependency('rspec', '~> 3.8.0')
+  s.add_development_dependency('pry')
 
   s.files       = `git ls-files`.split("\n")
   s.test_files  = `git ls-files -- spec/*`.split("\n")
