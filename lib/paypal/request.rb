@@ -27,9 +27,6 @@ module Paypal
 
     private
 
-    LIVE_URL = 'https://api.paypal.com/'
-    SANDBOX_URL = 'https://api.sandbox.paypal.com/'
-
     attr_reader :connection, :locale, :access_token
 
     def root_url(test_mode)

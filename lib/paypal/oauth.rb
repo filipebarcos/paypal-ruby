@@ -3,11 +3,11 @@ require 'faraday'
 
 module Paypal
   class Oauth
-    def initialize(test_mode: false, locale: 'en_US')
+    def initialize(client_id:, secret_token:, test_mode: false, locale: 'en_US')
       @connection = Faraday.new(url: root_url(test_mode)) do |conn|
         conn.request(:url_encoded)
         conn.response(:logger)
-        conn.basic_auth(Paypal.api_client, Paypal.secret_token)
+        conn.basic_auth(api_client, secret_token)
         conn.adapter(Faraday.default_adapter)
       end
 

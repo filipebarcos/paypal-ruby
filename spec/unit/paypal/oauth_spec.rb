@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 require 'spec_helper'
-require 'paypal/oauth'
+require 'paypal'
 
 RSpec.describe Paypal::Oauth do
   describe '#access_token' do
@@ -10,7 +10,7 @@ RSpec.describe Paypal::Oauth do
       allow(Faraday).to receive(:new).and_return(connection)
       expect(connection).to receive(:post) # .and_yield(request, )
 
-      described_class.new.access_token
+      described_class.new(client_id: 'client_id', secret_token: 'secret_token').access_token
     end
   end
 end

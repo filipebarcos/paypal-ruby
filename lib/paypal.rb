@@ -2,17 +2,16 @@
 
 require 'faraday'
 require 'json'
-require_relative 'paypal/version'
-require_relative 'paypal/payment'
-require_relative 'paypal/request'
-require_relative 'paypal/oauth'
+require 'paypal/version'
+require 'paypal/request'
+require 'paypal/payment'
+require 'paypal/oauth'
 
 module Paypal
   @live_url = 'https://api.paypal.com/'
   @sandbox_url = 'https://api.sandbox.paypal.com/'
 
   class << self
-    attr_acessor :client_id, :secret_token
     attr_reader :live_url, :sandbox_url
   end
 end
