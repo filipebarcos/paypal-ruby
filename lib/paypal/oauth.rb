@@ -5,10 +5,10 @@ module Paypal
   class Oauth
     def initialize(test_mode: false, locale: 'en_US')
       @connection = Faraday.new(url: root_url(test_mode)) do |conn|
-        conn.request :url_encoded
-        conn.response :logger
-        conn.basic_auth(CLIENT_ID, SECRET_TOKEN)
-        conn.adapter Faraday.default_adapter
+        conn.request(:url_encoded)
+        conn.response(:logger)
+        conn.basic_auth(Paypal.api_client, Paypal.secret_token)
+        conn.adapter(Faraday.default_adapter)
       end
 
       @locale = locale
@@ -25,15 +25,10 @@ module Paypal
 
     private
 
-    LIVE_URL = 'https://api.paypal.com/'
-    SANDBOX_URL = 'https://api.sandbox.paypal.com/'
-    CLIENT_ID = ''
-    SECRET_TOKEN = ''
-
     attr_reader :connection, :locale
 
     def root_url(test_mode)
-      test_mode ? SANDBOX_URL : LIVE_URL
+      test_mode ? Paypal.sandbox_url : Paypal.live_url
     end
   end
 end

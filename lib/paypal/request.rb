@@ -33,7 +33,7 @@ module Paypal
     attr_reader :connection, :locale, :access_token
 
     def root_url(test_mode)
-      test_mode ? SANDBOX_URL : LIVE_URL
+      test_mode ? Paypal.sandbox_url : Paypal.live_url
     end
   end
 end
