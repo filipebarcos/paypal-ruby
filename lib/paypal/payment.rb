@@ -32,7 +32,7 @@ module Paypal
         :total,
         :currency,
         :description,
-        :line_items,
+        :items,
       )
     end
 
@@ -40,18 +40,41 @@ module Paypal
       opts = valid_options_for_setup(options)
       { intent: opts[:intent] }.tap do |hash|
         hash[:transactions] = [transaction_hash(opts)]
-        hash[:description] = opts[:description]
-        hash[:item_list] = { items: line_items(opts) }
       end.compact
     end
 
     def transaction_hash(options)
+      {
+        amount: amount_hash(options),
+        description: options[:description],
+        custom: options[:custom],
+        invoice_number: options[:invoice],
+        item_list: { items: line_items(options[:items]) },
+      }
       options.slice(:total, :currency)
+    end
+
+    def amount_hash(options)
+      {
+        currency: options[:currency],
+        total: options[:order_total],
+        details: amount_details(options),
+      }
+    end
+
+    def amount_details(options)
+      {
+        subtotal: options[:subtotal],
+        tax: options[:tax],
+        shipping: options[:shipping],
+        handling_fee: options[:handling],
+        shipping_discount: options[:shipping_discount],
+      }
     end
 
     def line_items_details(line_items)
       Array(line_items).map do |item|
-
+        item.slice(:name, :price, :currency, :quantity, :description)
       end
     end
   end
