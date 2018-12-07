@@ -31,7 +31,6 @@ module Paypal
         :cancel_url,
         :total,
         :currency,
-        :description,
         :items,
       )
     end
@@ -40,6 +39,8 @@ module Paypal
       opts = valid_options_for_setup(options)
       { intent: opts[:intent] }.tap do |hash|
         hash[:transactions] = [transaction_hash(opts)]
+        hash[:payer] = { payment_method: 'paypal' }
+        hash[:redirect_urls] = redirect_urls(opts)
       end.compact
     end
 
@@ -49,15 +50,14 @@ module Paypal
         description: options[:description],
         custom: options[:custom],
         invoice_number: options[:invoice],
-        item_list: { items: line_items(options[:items]) },
+        item_list: { items: line_items_details(options[:items]) },
       }
-      options.slice(:total, :currency)
     end
 
     def amount_hash(options)
       {
         currency: options[:currency],
-        total: options[:order_total],
+        total: options[:total],
         details: amount_details(options),
       }
     end
@@ -74,8 +74,12 @@ module Paypal
 
     def line_items_details(line_items)
       Array(line_items).map do |item|
-        item.slice(:name, :price, :currency, :quantity, :description)
+        item.slice(:name, :description, :quantity, :price, :currency)
       end
+    end
+
+    def redirect_urls(options)
+      options.slice(:cancel_url, :return_url)
     end
   end
 end
