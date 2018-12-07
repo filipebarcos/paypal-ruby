@@ -51,17 +51,15 @@ module Paypal
     end
 
     def build_setup_request_body(options)
-      opts = valid_options_for_setup(options)
-      { intent: opts[:intent] }.tap do |hash|
-        hash[:transactions] = [transaction_hash(opts)]
+      { intent: options[:intent] }.tap do |hash|
+        hash[:transactions] = [transaction_hash(options)]
         hash[:payer] = { payment_method: 'paypal' }
-        hash[:redirect_urls] = redirect_urls(opts)
+        hash[:redirect_urls] = redirect_urls(options)
       end.compact
     end
 
     def build_execute_request_body(options)
-      opts = valid_options_for_execute(options)
-      { payer_id: opts[:payer_id] }.tap do |hash|
+      { payer_id: options[:payer_id] }.tap do |hash|
         hash[:transactions] = [
           { amount: amount_hash(options) }
         ]
