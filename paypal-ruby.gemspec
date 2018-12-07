@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.email       = 'filipebarcos@gmail.com'
   s.license     = 'MIT'
 
-  s.add_dependency('faraday', '~> 0.15')
+  s.add_dependency('faraday', '~> 0.12')
   s.add_development_dependency('rspec', '~> 3.8.0')
   s.add_development_dependency('pry')
 
