@@ -5,9 +5,9 @@ module Paypal
   class Request
     def initialize(access_token:, test_mode: false, locale: 'en_US')
       @connection = Faraday.new(url: root_url(test_mode)) do |conn|
-        conn.request :url_encoded
-        conn.response :logger
-        conn.adapter Faraday.default_adapter
+        conn.request(:url_encoded)
+        conn.response(:logger)
+        conn.adapter(Faraday.default_adapter)
       end
 
       @locale = locale
@@ -18,6 +18,7 @@ module Paypal
       response = connection.post do |request|
         request.url(path)
         request.headers['Accept'] = 'application/json'
+        request.headers['Content-Type'] = 'application/json'
         request.headers['Accept-Language'] = locale
         request.headers['Authorization'] = "Bearer #{access_token}"
         request.body = JSON.generate(payload) unless payload.nil?
