@@ -1,0 +1,35 @@
+#!/usr/bin/env ruby
+
+# frozen_string_literal: true
+
+require_relative '../lib/paypal'
+puts 'Loaded gem "paypal-ruby"'
+
+client_id = ENV['CLIENT_ID']
+secret_token = ENV['SECRET_TOKEN']
+
+unless client_id && secret_token
+  puts 'you are missing CLIENT_ID and SECRET_TOKEN set for this'
+  exit (-1)
+end
+
+oauth = Paypal::Oauth.new(client_id: client_id, secret_token: secret_token, test_mode: true)
+
+puts 'Retrieving access_token'
+access_token = oauth.access_token['access_token']
+
+request = Paypal::Request.new(access_token: access_token, test_mode: true)
+
+payment_response = Paypal::Payment
+  .new(request: request)
+  .setup(intent: 'sale', options: {
+    return_url: 'https://fake.url.com',
+    cancel_url: 'https://fake.url.com',
+    total: '10.0',
+    currency: 'USD',
+    items: []
+  })
+
+puts payment_response.send(:body)
+
+puts 'done'
