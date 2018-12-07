@@ -13,6 +13,13 @@ module Paypal
       )
     end
 
+    def update(payment_id:, options: {})
+      request.patch(
+        "v1/payments/payment/#{payment_id}",
+        build_setup_request_body(options)
+      )
+    end
+
     def execute(payment_id:, payer_id:, options: {})
       request.post(
         "v1/payments/payment/#{payment_id}/execute",

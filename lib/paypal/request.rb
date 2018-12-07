@@ -15,7 +15,19 @@ module Paypal
     end
 
     def post(path, payload = nil)
-      response = connection.post do |request|
+      request(:post, path, payload)
+    end
+
+    def patch(path, payload = nil)
+      request(:patch, path, payload)
+    end
+
+    private
+
+    attr_reader :connection, :locale, :access_token
+
+    def request(method, path, payload = nil)
+      response = connection.public_send(method) do |request|
         request.url(path)
         request.headers['Accept'] = 'application/json'
         request.headers['Content-Type'] = 'application/json'
@@ -28,10 +40,6 @@ module Paypal
 
       Paypal::Response.new(response)
     end
-
-    private
-
-    attr_reader :connection, :locale, :access_token
 
     def root_url(test_mode)
       test_mode ? Paypal.sandbox_url : Paypal.live_url
