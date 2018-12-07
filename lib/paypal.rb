@@ -2,10 +2,11 @@
 
 require 'faraday'
 require 'json'
-require 'paypal/version'
-require 'paypal/request'
-require 'paypal/payment'
-require 'paypal/oauth'
+require_relative 'paypal/version'
+require_relative 'paypal/response'
+require_relative 'paypal/request'
+require_relative 'paypal/payment'
+require_relative 'paypal/oauth'
 
 module Paypal
   @live_url = 'https://api.paypal.com/'

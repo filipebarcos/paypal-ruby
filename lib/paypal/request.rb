@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'faraday'
 
 module Paypal
   class Request
@@ -14,7 +15,7 @@ module Paypal
     end
 
     def post(path, payload = nil)
-      connection.post do |request|
+      response = connection.post do |request|
         request.url(path)
         request.headers['Accept'] = 'application/json'
         request.headers['Accept-Language'] = locale
@@ -23,6 +24,8 @@ module Paypal
         request.options.timeout = 2
         request.options.open_timeout = 1
       end
+
+      Paypal::Response.new(response)
     end
 
     private

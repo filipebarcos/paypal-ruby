@@ -7,7 +7,7 @@ module Paypal
       @connection = Faraday.new(url: root_url(test_mode)) do |conn|
         conn.request(:url_encoded)
         conn.response(:logger)
-        conn.basic_auth(api_client, secret_token)
+        conn.basic_auth(client_id, secret_token)
         conn.adapter(Faraday.default_adapter)
       end
 
@@ -15,12 +15,14 @@ module Paypal
     end
 
     def access_token
-      connection.post do |request|
+      response = connection.post do |request|
         request.url 'v1/oauth2/token'
         request.headers['Accept'] = 'application/json'
         request.headers['Accept-Language'] = locale
         request.body = { grant_type: 'client_credentials'}
       end
+
+      Paypal::Response.new(response)
     end
 
     private
